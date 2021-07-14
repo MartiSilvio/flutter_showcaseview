@@ -257,48 +257,50 @@ class _ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
         visible: _showShowCase,
         maintainAnimation: true,
         maintainState: true,
-        child: Stack(
-          children: [
-            GestureDetector(
-              onTap: _nextIfAny,
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                child: CustomPaint(
-                  painter: ShapePainter(
-                      opacity: widget.overlayOpacity,
-                      rect: position!.getRect(),
-                      shapeBorder: widget.shapeBorder,
-                      color: widget.overlayColor),
-                ),
+        child: offset.dx.isNaN
+            ? SizedBox.shrink()
+            : Stack(
+                children: [
+                  GestureDetector(
+                    onTap: _nextIfAny,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height,
+                      child: CustomPaint(
+                        painter: ShapePainter(
+                            opacity: widget.overlayOpacity,
+                            rect: position!.getRect(),
+                            shapeBorder: widget.shapeBorder,
+                            color: widget.overlayColor),
+                      ),
+                    ),
+                  ),
+                  _TargetWidget(
+                    offset: offset,
+                    size: size,
+                    onTap: _getOnTargetTap,
+                    shapeBorder: widget.shapeBorder,
+                  ),
+                  ToolTipWidget(
+                    position: position,
+                    offset: offset,
+                    screenSize: screenSize,
+                    title: widget.title,
+                    description: widget.description,
+                    animationOffset: _slideAnimation,
+                    titleTextStyle: widget.titleTextStyle,
+                    descTextStyle: widget.descTextStyle,
+                    container: widget.container,
+                    tooltipColor: widget.showcaseBackgroundColor,
+                    textColor: widget.textColor,
+                    showArrow: widget.showArrow,
+                    contentHeight: widget.height,
+                    contentWidth: widget.width,
+                    onTooltipTap: _getOnTooltipTap,
+                    contentPadding: widget.contentPadding,
+                  ),
+                ],
               ),
-            ),
-            _TargetWidget(
-              offset: offset,
-              size: size,
-              onTap: _getOnTargetTap,
-              shapeBorder: widget.shapeBorder,
-            ),
-            ToolTipWidget(
-              position: position,
-              offset: offset,
-              screenSize: screenSize,
-              title: widget.title,
-              description: widget.description,
-              animationOffset: _slideAnimation,
-              titleTextStyle: widget.titleTextStyle,
-              descTextStyle: widget.descTextStyle,
-              container: widget.container,
-              tooltipColor: widget.showcaseBackgroundColor,
-              textColor: widget.textColor,
-              showArrow: widget.showArrow,
-              contentHeight: widget.height,
-              contentWidth: widget.width,
-              onTooltipTap: _getOnTooltipTap,
-              contentPadding: widget.contentPadding,
-            ),
-          ],
-        ),
       );
 }
 
